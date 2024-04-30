@@ -12,7 +12,7 @@ var game =  new Phaser.Game(config);
 
 function preload() {
 this.load.image("playButton", "assets/playButton.jpg");
-this.load.audio('clickSound', 'assets/clickSound.mp3');
+this.load.audio('clickSound', 'assets/clock_sound.mp3');
 
 };
 
