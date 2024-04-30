@@ -9,11 +9,8 @@ Scene1.preload = function() {
 Scene1.create = function() {
     // Capture scene reference
     var self = this;
-    
-    // Define a custom flag to track whether the scene is paused
+   
     this.isScenePaused = false;
-
-    // Create objects and logic for Scene1
     this.add.image(300, 300, 'infinity');
 
     // Add a pause button
