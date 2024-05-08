@@ -1,51 +1,21 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import io from 'socket.io-client';
 import Phaser from "phaser";
+import "./App.css";
 
 const PhaserGame = () => {
   const phaserRef = useRef(null);
-  let ball;
-
-  // Define handleButtonClick outside of useEffect
-  function handleButtonClick(direction) {
-    switch (direction) {
-      case "topLeft":
-        ball.setVelocityX(-200);
-        ball.setVelocityY(-200);
-        break;
-      case "topRight":
-        ball.setVelocityX(200);
-        ball.setVelocityY(-200);
-        break;
-      case "rightUp":
-        ball.setVelocityX(200);
-        ball.setVelocityY(-200);
-        break;
-      case "rightDown":
-        ball.setVelocityX(200);
-        ball.setVelocityY(200);
-        break;
-      case "bottomLeft":
-        ball.setVelocityX(-200);
-        ball.setVelocityY(200);
-        break;
-      case "bottomRight":
-        ball.setVelocityX(200);
-        ball.setVelocityY(200);
-        break;
-      case "leftUp":
-        ball.setVelocityX(-200);
-        ball.setVelocityY(-200);
-        break;
-      case "leftDown":
-        ball.setVelocityX(-200);
-        ball.setVelocityY(200);
-        break;
-      default:
-        break;
-    }
-  }
+  const [userType, setUserType] = useState('admin'); // Initially, assume user is admin
+  const [welcomeMessage, setWelcomeMessage] = useState('Welcome! User');
+  const socket = io('http://localhost:3001');
+  let ball; // Define ball variable outside useEffect
 
   useEffect(() => {
+    socket.on('userType', (type) => {
+      setUserType(type);
+      setWelcomeMessage(`Welcome ${type === 'admin' ? 'Admin' : 'User'}`);
+    });
+
     const config = {
       type: Phaser.AUTO,
       width: 800,
@@ -72,52 +42,102 @@ const PhaserGame = () => {
     }
     
     function create() {
-      ball = this.physics.add.image(400, 300, "Tennis"); 
+      ball = this.physics.add.image(400, 300, "Tennis"); // Assign ball here
       ball.setCollideWorldBounds(true);
       ball.setBounce(1);
       ball.setVelocity(250, 250);
     }
     
-
     function update() {
       // Update logic here
     }
-    
+
+    phaserRef.current = game;
 
     return () => {
       game.destroy(true);
+      socket.disconnect();
     };
   }, []);
 
+  function handleClick(buttonNumber, targetX, targetY) {
+    if (userType === 'user') return; // If user, prevent button click
+    const distanceX = targetX - ball.x;
+    const distanceY = targetY - ball.y;
+    
+    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    const speed = 500;
+    const duration = distance / speed * 1000;
+    
+    ball.setVelocity(distanceX / distance * speed, distanceY / distance * speed);
+
+    socket.emit('buttonClick', buttonNumber);
+  }
+
+
+
   return (
     <div className="container">
+      <h1>{welcomeMessage}</h1>
+      {/* <p>hy mom</p> */}
       <div className="canvas-container" ref={phaserRef}></div>
       <div className="btnGroup">
-        <button className="button" id="btn1" onClick={() => handleButtonClick("topLeft")}>
+        <button
+          id="btn1"
+          onClick={() => handleClick(200, 0, 1)}
+          className="button"
+        >
           Button 1
         </button>
-        <button className="button" id="btn2" onClick={() => handleButtonClick("topRight")}>
+        <button
+          id="btn2"
+          onClick={() => handleClick(500, 0, 1.5)}
+          className="button"
+        >
           Button 2
         </button>
-
-        <button className="button" id="btn3" onClick={() => handleButtonClick("rightUp")}>
+        <button
+          id="btn3"
+          onClick={() => handleClick(800, 160, 1.5)}
+          className="button"
+        >
           Button 3
         </button>
-        <button className="button" id="btn4" onClick={() => handleButtonClick("rightDown")}>
+        <button
+          id="btn4"
+          onClick={() => handleClick(800, 450, 1)}
+          className="button"
+        >
           Button 4
         </button>
 
-        <button className="button" id="btn5" onClick={() => handleButtonClick("bottomLeft")}>
+        <button
+          id="btn5"
+          onClick={() => handleClick(200, 600, 1)}
+          className="button"
+        >
           Button 5
         </button>
-        <button className="button" id="btn6" onClick={() => handleButtonClick("bottomRight")}>
+        <button
+          id="btn6"
+          onClick={() => handleClick(500, 600, 1)}
+          className="button"
+        >
           Button 6
         </button>
 
-        <button className="button" id="btn7" onClick={() => handleButtonClick("leftUp")}>
+        <button
+          id="btn7"
+          onClick={() => handleClick(0, 200, 1)}
+          className="button"
+        >
           Button 7
         </button>
-        <button className="button" id="btn8" onClick={() => handleButtonClick("leftDown")}>
+        <button
+          id="btn8"
+          onClick={() => handleClick(0, 400, 1)}
+          className="button"
+        >
           Button 8
         </button>
       </div>

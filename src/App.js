@@ -1,14 +1,17 @@
-import React from 'react';
-import './App.css';
-import PhaserGame from './PhaserGame';
+// App.js
+import React  from "react";
+
+import PhaserGame from "./PhaserGame";
+// import Login from "./Login";
 
 function App() {
+  
+
   return (
-    <>
-     <h1>Phaser Game in React</h1>
-     <PhaserGame />
-     </>
    
+    <>
+    <PhaserGame />
+    </>
   );
 }
 

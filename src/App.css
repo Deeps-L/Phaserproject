@@ -20,51 +20,51 @@
 
 .canvas-container{
   position: relative;
-}
+} 
 
 
 
 
 #btn1 {
   position: absolute;
-  top: 9%;
-  right: 75%;
+  top: 12%;
+  left: 9%;
 }
 #btn2{
   position: absolute;
-  top: 9%;
-  right: 40%;
+  top: 12%;
+  right: 62%;
 }
 
 #btn3 {
   position: absolute;
-  top: 27%;
-  right: 21%;
+  top: 28%;
+  right: 45%;
 }
 #btn4{
   position: absolute;
-  top: 55%;
-  right: 21%;
+  bottom: 35%;
+  right: 45%;
 }
 #btn5 {
   position: absolute;
-  bottom: 15%;
-  right: 75%;
+  bottom: 8%;
+  left: 9%;
 }
 #btn6{
   position: absolute;
-  bottom: 15%;
-  right: 40%;
+  bottom: 8%;
+  right: 62%;
 }
 #btn7 {
   position: absolute;
-  top: 27%;
-  left: -5%;
+  top: 28%;
+  left: -3%;
 }
 #btn8{
   position: absolute;
-  top: 55%;
-  left: -5%;
+  bottom: 35%;
+  left: -3%;
 }
 
 
@@ -73,7 +73,7 @@
   margin: 10px 50px;
   background-color: #464249;
   color: #fff;
-  padding: 10px 13px;
+  padding: 12px 13px;
   border: 0px;
   border-radius: 5px;
   font-weight: 600;
